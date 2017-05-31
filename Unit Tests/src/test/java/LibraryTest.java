@@ -5,64 +5,109 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-
 import static org.junit.Assert.*;
 
 public class LibraryTest {
-	@Test
-	public void testSomeLibraryMethod() {
-		Library classUnderTest = new Library();
-		assertTrue("someLibraryMethod should return 'true'",
-				classUnderTest.someLibraryMethod());
-	}
 
 	@Test
 	public void testEdad() {
 		Main m = new Main();
 		Assert.assertEquals("Error al comparar", m.edad("04/12/1996"),
-				"La edad es: 20 años,5 meses, 26 días");
+				"La edad es: 20 años,5 meses, 27 días");
+
 	}
+
+	@Test
+	public void testEdadMayor() {
+		Main m = new Main();
+		Assert.assertEquals("Error al comparar", m.edad("04/12/1990"),
+				"La edad es: 26 años,5 meses, 27 días");
+
+	}
+
 	@Test
 	public void testEdadNeg() {
 		Main m = new Main();
-		Assert.assertEquals("Error al comparar", m.edad("04/10/1996"),
-				"La edad es: 20 años,5 meses, 26 días");
+		Assert.assertFalse(m.edad("04/10/1996").equals(
+				"La edad es: 20 años,5 meses, 26 días"));
 	}
+
+	@Test
+	public void testEdadNeg2() {
+		Main m = new Main();
+		Assert.assertFalse(m.edad("04/10/1990").equals(
+				"La edad es: 20 años,5 meses, 26 días"));
+	}
+
 	@Test
 	public void testPrimo() {
 		Main m = new Main();
-		Assert.assertEquals("Error al comparar", m.primo(7),
-				"true");
+		Assert.assertEquals("Error al comparar", m.primo(7), true);
 	}
+
+	@Test
+	public void testPrimoConNegativos() {
+		Main m = new Main();
+		Assert.assertEquals("Error al comparar", m.primo(-6), false);
+	}
+
+	@Test
+	public void testPrimoCero() {
+		Main m = new Main();
+		Assert.assertEquals("Error al comparar", m.primo(0), false);
+	}
+
 	@Test
 	public void testPrimoNeg() {
 		Main m = new Main();
-		Assert.assertEquals("Error al comparar", m.primo(0),
-				"false");
+		Assert.assertEquals("Error al comparar", m.primo(-1), false);
 	}
+
 	@Test
-	public void testPers() {
+	public void testPersMatcheaProfesion() {
 		Main m = new Main();
-		Persona a = new Persona("a","estudiante",18);
-		Persona b = new Persona("b","abogado",20);
-		Assert.assertEquals("Error al comparar", m.aplica(a,b,"estudiante"),
-				"a");
+		Persona a = new Persona("a", "estudiante", 18);
+		Persona b = new Persona("b", "abogado", 20);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "estudiante").nombre, a.nombre);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "estudiante").edad, a.edad);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "estudiante").profesion, a.profesion);
 	}
+
 	@Test
-	public void testPers1() {
+	public void testPersMatcheaProfesionIgual() {
 		Main m = new Main();
-		Persona a = new Persona("a","estudiante",18);
-		Persona b = new Persona("b","estudiante",20);
-		Assert.assertEquals("Error al comparar", m.aplica(a,b,"estudiante"),
-				"b");
+		Persona a = new Persona("a", "estudiante", 18);
+		Persona b = new Persona("b", "estudiante", 20);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "estudiante").nombre, b.nombre);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "estudiante").edad, b.edad);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "estudiante").profesion, b.profesion);
 	}
+
 	@Test
-	public void testPers2() {
+	public void testPersTodoIgual() {
 		Main m = new Main();
-		Persona a = new Persona("a","estudiante",20);
-		Persona b = new Persona("b","estudiante",20);
-		Assert.assertEquals("Error al comparar", m.aplica(a,b,"estudiante"),
-				"a");
+		Persona a = new Persona("a", "estudiante", 20);
+		Persona b = new Persona("b", "estudiante", 20);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "estudiante").nombre, a.nombre);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "estudiante").edad, a.edad);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "estudiante").profesion, a.profesion);
+	}
+	
+	public void testPersNoMatcheaProfesion() {
+		Main m = new Main();
+		Persona a = new Persona("a", "estudiante", 22);
+		Persona b = new Persona("b", "profesor", 24);
+		Assert.assertEquals("Error al comparar",
+				m.aplica(a, b, "plomero").nombre, null);
 	}
 
 }
